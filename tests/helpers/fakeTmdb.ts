@@ -25,8 +25,8 @@ export interface FakeTitle {
 }
 
 export const PROVIDERS: TmdbProvider[] = [
-  { provider_id: 8, provider_name: 'Netflix', display_priorities: { ES: 0 } },
-  { provider_id: 1796, provider_name: 'Netflix Standard with Ads', display_priorities: { ES: 50 } },
+  { provider_id: 8, provider_name: 'Netflix', logo_path: '/netflix.png', display_priorities: { ES: 0 } },
+  { provider_id: 1796, provider_name: 'Netflix Standard with Ads', logo_path: '/netflix-ads.png', display_priorities: { ES: 50 } },
   { provider_id: 337, provider_name: 'Disney Plus', display_priorities: { ES: 3 } },
   { provider_id: 350, provider_name: 'Apple TV', display_priorities: { ES: 2 } },
   { provider_id: 2, provider_name: 'Apple TV Store', display_priorities: { ES: 6 } },

@@ -27,10 +27,11 @@ export const toStremioType = (t: TmdbMediaType): StremioType => (t === 'movie' ?
 
 export interface MetaPreview {
   id: string;
-  type: StremioType;
+  /** `other` se usa para los iconos de plataforma del sitio estático. */
+  type: StremioType | 'other';
   name: string;
   poster?: string;
-  posterShape: 'poster';
+  posterShape: 'poster' | 'square';
   background?: string;
   description?: string;
   releaseInfo?: string;
@@ -158,6 +159,13 @@ export class AddonService {
       }
     }
     throw new Error('El manifiesto supera 8 KB incluso sin géneros: reduce el número de plataformas');
+  }
+
+  /** Nombres de los géneros presentes en un catálogo, de más a menos títulos. */
+  catalogGenreNames(region: string, platform: string, type: TmdbMediaType, language: string): string[] {
+    this.checkVersion();
+    const idx = this.genreIdx(language);
+    return this.catalogGenres(region, platform, type).map((id) => idx.nameOf(type, id)).filter((n): n is string => !!n);
   }
 
   private catalogGenres(region: string, platform: string, type: TmdbMediaType): number[] {

@@ -71,15 +71,18 @@ jobs:
           path: data
           key: db-${{ github.run_id }}
 
+      # La URL pública del sitio hace falta para los enlaces internos de Stremio (ficha → catálogo).
+      - id: pages
+        uses: actions/configure-pages@v5
+
       # Si la sincronización falla, no se llega aquí y sigue publicada la última versión válida.
       - name: Generar sitio estático
         env:
-          STATIC_MAX_PAGES: ${{ vars.STATIC_MAX_PAGES || '10' }}
-          STATIC_SORTS: ${{ vars.STATIC_SORTS || 'popularity,new,release,rating' }}
+          STATIC_BASE_URL: ${{ steps.pages.outputs.base_url }}
+          STATIC_MAX_PAGES: ${{ vars.STATIC_MAX_PAGES || '20' }}
           STATIC_DESCRIPTION_MAX: ${{ vars.STATIC_DESCRIPTION_MAX || '300' }}
         run: node dist/static/cli.js --out site
 
-      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

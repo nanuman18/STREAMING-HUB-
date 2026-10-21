@@ -305,14 +305,14 @@ export class Store {
   replaceProviders(region: string, type: TmdbMediaType, providers: TmdbProvider[], now: number): void {
     tx(this.db, () => {
       this.db.prepare('DELETE FROM tmdb_providers WHERE region = ? AND media_type = ?').run(region, type);
-      const ins = this.db.prepare('INSERT INTO tmdb_providers (region, media_type, provider_id, name, priority, fetched_at) VALUES (?, ?, ?, ?, ?, ?)');
-      for (const p of providers) ins.run(region, type, p.provider_id, p.provider_name, p.display_priorities?.[region] ?? null, now);
+      const ins = this.db.prepare('INSERT INTO tmdb_providers (region, media_type, provider_id, name, priority, logo_path, fetched_at) VALUES (?, ?, ?, ?, ?, ?, ?)');
+      for (const p of providers) ins.run(region, type, p.provider_id, p.provider_name, p.display_priorities?.[region] ?? null, p.logo_path ?? null, now);
     });
   }
 
-  providers(region: string): Array<{ media_type: TmdbMediaType; provider_id: number; name: string; priority: number | null; fetched_at: number }> {
-    return this.db.prepare('SELECT media_type, provider_id, name, priority, fetched_at FROM tmdb_providers WHERE region = ? ORDER BY priority')
-      .all(region) as Array<{ media_type: TmdbMediaType; provider_id: number; name: string; priority: number | null; fetched_at: number }>;
+  providers(region: string): Array<{ media_type: TmdbMediaType; provider_id: number; name: string; priority: number | null; logo_path: string | null; fetched_at: number }> {
+    return this.db.prepare('SELECT media_type, provider_id, name, priority, logo_path, fetched_at FROM tmdb_providers WHERE region = ? ORDER BY priority')
+      .all(region) as Array<{ media_type: TmdbMediaType; provider_id: number; name: string; priority: number | null; logo_path: string | null; fetched_at: number }>;
   }
 
   setPlatformProviders(region: string, platform: string, ids: number[], names: string[], now: number): void {

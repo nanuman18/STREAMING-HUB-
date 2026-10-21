@@ -17,7 +17,7 @@ Antes de usarlo en serio, lee **[docs/LIMITACIONES.md](docs/LIMITACIONES.md)**: 
 
 | | Cómo | Coste |
 |---|---|---|
-| **GitHub Pages** (recomendada) | GitHub Actions sincroniza cada 6 h y publica el addon como archivos estáticos. Un addon por plataforma. Guía: **[docs/GITHUB-PAGES.md](docs/GITHUB-PAGES.md)** | 0 €, solo una cuenta de GitHub |
+| **GitHub Pages** (recomendada) | GitHub Actions sincroniza cada 6 h y publica el addon como archivos estáticos. En Inicio, una fila con el icono de cada plataforma; al pulsarla, sus películas y series por fecha de estreno. Guía: **[docs/GITHUB-PAGES.md](docs/GITHUB-PAGES.md)** | 0 €, solo una cuenta de GitHub |
 | **Servidor** | Node.js con Docker o en un VPS. Un único addon configurable. Guía: [docs/DESPLIEGUE.md](docs/DESPLIEGUE.md) | VPS o PC encendido |
 
 ---
@@ -131,7 +131,7 @@ Todas las variables están comentadas en [.env.example](.env.example). Las princ
 
 ## Pruebas
 
-- **Unitarias** (`tests/unit`, 60 pruebas, sin red): usan un doble de TMDB en memoria que reproduce la paginación de 20, el límite de páginas y los filtros de Discover. Cubren manifiesto válido según el SDK oficial, catálogos de películas y series, IMDb ID, paginación, filtros por proveedor y género, órdenes, caché, sincronización incremental y completa, partición por fechas, altas, retiradas verificadas, falsos positivos de retirada, errores de TMDB (429, 5xx, red, 404), bloqueo de sincronizaciones simultáneas, calendario, configuración individual por URL, que el token nunca se expone y el sitio estático (rutas exactas que pide Stremio, límite de páginas, manifiestos válidos).
+- **Unitarias** (`tests/unit`, 63 pruebas, sin red): usan un doble de TMDB en memoria que reproduce la paginación de 20, el límite de páginas y los filtros de Discover. Cubren manifiesto válido según el SDK oficial, catálogos de películas y series, IMDb ID, paginación, filtros por proveedor y género, órdenes, caché, sincronización incremental y completa, partición por fechas, altas, retiradas verificadas, falsos positivos de retirada, errores de TMDB (429, 5xx, red, 404), bloqueo de sincronizaciones simultáneas, calendario, configuración individual por URL, que el token nunca se expone y el sitio estático (rutas exactas que pide Stremio, límite de páginas, manifiestos válidos).
 - **Integración** (`tests/integration`, 12 pruebas, con red): resuelven las 12 plataformas reales en España, comprueban IMDb ID de títulos conocidos y el límite de 500 páginas de Discover, sincronizan Netflix y Disney+ con datos reales, validan que los títulos devueltos figuran en la plataforma según su ficha individual de TMDB y que **sus fichas abren en Cinemeta**, y prueban el servidor HTTP con datos reales.
 
 ## Añadir otra plataforma

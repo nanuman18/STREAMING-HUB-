@@ -131,6 +131,10 @@ const MIGRATIONS: string[] = [
   `
   CREATE INDEX IF NOT EXISTS availability_title ON availability (media_type, tmdb_id, status);
   `,
+  // 3: logo de cada proveedor (icono de la plataforma en Stremio).
+  `
+  ALTER TABLE tmdb_providers ADD COLUMN logo_path TEXT;
+  `,
 ];
 
 export type Db = DatabaseSync;

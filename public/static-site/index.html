@@ -17,7 +17,7 @@
         </span>
         <div>
           <h1>Streaming Hub</h1>
-          <p class="tagline">Catálogos por plataforma para Stremio. Solo catálogos: la reproducción sigue en tus addons habituales.</p>
+          <p class="tagline">Las plataformas de streaming en el Inicio de Stremio. Solo catálogos: la reproducción sigue en tus addons habituales.</p>
         </div>
       </div>
       <div class="status" id="status" aria-live="polite">
@@ -26,33 +26,36 @@
     </header>
 
     <div class="grid">
-      <section class="card platforms-card" aria-labelledby="h-platforms">
-        <div class="card-head">
-          <h2 id="h-platforms">Plataformas</h2>
+      <section class="card install-card" aria-labelledby="h-install">
+        <h2 id="h-install">Instalar</h2>
+        <p class="summary" id="summary">—</p>
+        <div class="actions">
+          <a class="btn primary" id="install" href="#">Instalar en Stremio</a>
+          <a class="btn" id="install-web" href="#" target="_blank" rel="noopener">Abrir en Stremio Web</a>
+          <button type="button" class="btn" id="copy">Copiar URL</button>
         </div>
-        <p class="hint">Cada plataforma es un addon con sus catálogos de películas y series. Instala las que quieras; Stremio las muestra en el orden en que las instales.</p>
-        <ol id="platforms" class="platform-list"></ol>
+        <label class="field">
+          <span class="label">URL del addon</span>
+          <input id="manifest-url" type="text" readonly>
+        </label>
+        <p class="hint">Si instalaste antes los addons sueltos («Streaming Hub · Netflix», etc.), desinstálalos: ya no se actualizan.</p>
         <p class="error" id="error" role="alert" hidden></p>
       </section>
 
-      <section class="card" aria-labelledby="h-options">
-        <h2 id="h-options">Orden de los títulos</h2>
-        <label class="field">
-          <span class="label">Ordenar por</span>
-          <select id="sort"></select>
-          <small class="hint" id="sort-hint"></small>
-        </label>
-        <p class="hint">Para cambiar el orden de una plataforma ya instalada, vuelve a instalarla con el nuevo orden: sustituye a la anterior.</p>
+      <section class="card" aria-labelledby="h-how">
+        <h2 id="h-how">Cómo se usa</h2>
+        <ol class="steps">
+          <li>En <strong>Inicio</strong> aparece la fila <strong>Plataformas</strong> con el icono de cada una.</li>
+          <li>Pulsa una plataforma y, en su ficha, elige <strong>Películas</strong> o <strong>Series</strong>.</li>
+          <li>Se abre su catálogo en Descubrir, del <strong>estreno más reciente al más antiguo</strong>. Arriba puedes filtrar por género.</li>
+          <li>Al abrir un título, tus addons de reproducción muestran los enlaces como siempre.</li>
+        </ol>
         <p class="hint" id="limits"></p>
       </section>
 
-      <section class="card" aria-labelledby="h-how">
-        <h2 id="h-how">Cómo instalar</h2>
-        <ol class="steps">
-          <li><strong>Instalar</strong> abre la app de Stremio (escritorio, Android, Android TV).</li>
-          <li><strong>Web</strong> abre Stremio Web, útil para sincronizarlo con tu cuenta y verlo después en la tele.</li>
-          <li><strong>Copiar</strong> copia la URL para pegarla en Stremio → Addons.</li>
-        </ol>
+      <section class="card status-card" aria-labelledby="h-platforms">
+        <h2 id="h-platforms">Plataformas incluidas</h2>
+        <ul id="platforms" class="logo-grid"></ul>
       </section>
 
       <section class="card status-card" aria-labelledby="h-data">
@@ -70,7 +73,7 @@
       </section>
     </div>
 
-    <footer class="foot">Datos de <a href="https://www.themoviedb.org" target="_blank" rel="noopener">TMDB</a>. Este producto usa la API de TMDB pero no está avalado ni certificado por TMDB.</footer>
+    <footer class="foot">Datos y logos de <a href="https://www.themoviedb.org" target="_blank" rel="noopener">TMDB</a> (disponibilidad de JustWatch). Este producto usa la API de TMDB pero no está avalado ni certificado por TMDB.</footer>
   </main>
   <script src="assets/site.js" defer></script>
 </body>
