@@ -1,0 +1,5 @@
+# Proxy inverso con certificado HTTPS automático. DOMAIN llega desde docker-compose.
+{$DOMAIN} {
+	encode gzip
+	reverse_proxy streaming-hub:7000
+}

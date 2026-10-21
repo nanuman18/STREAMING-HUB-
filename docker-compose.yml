@@ -1,0 +1,37 @@
+# Uso:
+#   docker compose up -d --build                    → addon en http://localhost:7000
+#   DOMAIN=hub.midominio.com docker compose --profile https up -d --build
+#                                                   → además, Caddy con HTTPS automático (Let's Encrypt)
+services:
+  streaming-hub:
+    build: .
+    image: streaming-hub:latest
+    env_file: .env
+    environment:
+      DB_PATH: /data/streaming-hub.db
+    volumes:
+      - hub-data:/data
+    ports:
+      - "${HUB_PORT:-7000}:7000"
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2.8-alpine
+    profiles: ["https"]
+    depends_on:
+      - streaming-hub
+    environment:
+      DOMAIN: ${DOMAIN:?Define DOMAIN con tu dominio público}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    restart: unless-stopped
+
+volumes:
+  hub-data:
+  caddy-data:
+  caddy-config:

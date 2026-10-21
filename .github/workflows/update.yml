@@ -1,0 +1,95 @@
+# Sincroniza con TMDB cada 6 horas (completa una vez al día) y publica el addon en GitHub Pages.
+# Requisitos (una sola vez):
+#   1. Settings → Secrets and variables → Actions → New repository secret: TMDB_ACCESS_TOKEN
+#   2. Settings → Pages → Build and deployment → Source: GitHub Actions
+name: Actualizar catálogos
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: 'Sincronización: auto (la que toque), full o incremental'
+        default: auto
+        type: choice
+        options: [auto, full, incremental]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: write
+
+# Nunca dos ejecuciones a la vez; una nueva espera a que termine la anterior.
+concurrency:
+  group: update-catalogs
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+
+      # La base de datos (IMDb ID ya resueltos, altas y retiradas) se conserva entre ejecuciones en la caché.
+      # Si se perdiera, la siguiente ejecución la reconstruye desde cero (~35 min).
+      - name: Restaurar base de datos
+        uses: actions/cache/restore@v4
+        with:
+          path: data
+          key: db-${{ github.run_id }}
+          restore-keys: db-
+
+      - name: Sincronizar con TMDB
+        env:
+          TMDB_ACCESS_TOKEN: ${{ secrets.TMDB_ACCESS_TOKEN }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: |
+          case "${{ inputs.kind }}" in
+            full) node dist/sync/cli.js --full ;;
+            incremental) node dist/sync/cli.js --incremental ;;
+            *) node dist/sync/cli.js ;;
+          esac
+
+      - name: Guardar base de datos
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data
+          key: db-${{ github.run_id }}
+
+      # Si la sincronización falla, no se llega aquí y sigue publicada la última versión válida.
+      - name: Generar sitio estático
+        env:
+          STATIC_MAX_PAGES: ${{ vars.STATIC_MAX_PAGES || '10' }}
+          STATIC_SORTS: ${{ vars.STATIC_SORTS || 'popularity,new,release,rating' }}
+          STATIC_DESCRIPTION_MAX: ${{ vars.STATIC_DESCRIPTION_MAX || '300' }}
+        run: node dist/static/cli.js --out site
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+      # GitHub desactiva los flujos programados de repositorios públicos tras 60 días sin actividad.
+      # Volver a habilitarlo por la API reinicia ese plazo sin crear commits.
+      - name: Mantener activa la programación
+        if: github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/update.yml/enable"

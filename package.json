@@ -1,0 +1,40 @@
+{
+  "name": "streaming-hub",
+  "version": "1.0.0",
+  "description": "Addon de Stremio con catálogos por plataforma de streaming (datos de TMDB, disponibilidad en España). No proporciona streams.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/index.js",
+    "sync": "tsx src/sync/cli.ts",
+    "sync:prod": "node dist/sync/cli.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --project unit",
+    "test:integration": "vitest run --project integration",
+    "test:all": "vitest run",
+    "test:watch": "vitest --project unit",
+    "export": "tsx src/static/cli.ts --out site",
+    "export:prod": "node dist/static/cli.js --out site",
+    "serve:static": "node scripts/serve-static.mjs site 7100"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "stremio-addon-sdk": "^1.6.10"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.19.2",
+    "@types/supertest": "^7.2.1",
+    "supertest": "^7.3.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  }
+}

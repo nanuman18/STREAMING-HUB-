@@ -1,0 +1,17 @@
+{
+  "$comment": "Plataformas de Streaming Hub. Los ID de TMDB NO se escriben aquí: se resuelven en cada sincronización comparando 'match' con la lista real de /watch/providers de TMDB para cada región. Para añadir otra plataforma basta con añadir una entrada (clave única en minúsculas) y reiniciar. 'providerIds' es opcional y solo sirve para fijar ID concretos si TMDB cambiase un nombre.",
+  "platforms": [
+    { "key": "netflix", "name": "Netflix", "match": ["Netflix", "Netflix Standard with Ads", "Netflix basic with Ads"] },
+    { "key": "disney", "name": "Disney+", "match": ["Disney Plus", "Disney+"] },
+    { "key": "prime", "name": "Prime Video", "match": ["Amazon Prime Video", "Amazon Prime Video with Ads", "Prime Video"] },
+    { "key": "hbomax", "name": "HBO Max", "match": ["HBO Max", "Max"] },
+    { "key": "appletv", "name": "Apple TV+", "match": ["Apple TV Plus", "Apple TV+", "Apple TV"] },
+    { "key": "movistar", "name": "Movistar Plus+", "match": ["Movistar Plus+", "Movistar Plus", "Movistar Plus+ Ficción Total", "Movistar+"] },
+    { "key": "skyshowtime", "name": "SkyShowtime", "match": ["SkyShowtime"] },
+    { "key": "filmin", "name": "Filmin", "match": ["Filmin", "Filmin Plus"] },
+    { "key": "atresplayer", "name": "Atresplayer", "match": ["Atres Player", "Atresplayer", "ATRESplayer PREMIUM"] },
+    { "key": "rtve", "name": "RTVE Play", "match": ["rtve", "RTVE Play", "RTVE"] },
+    { "key": "crunchyroll", "name": "Crunchyroll", "match": ["Crunchyroll"] },
+    { "key": "rakuten", "name": "Rakuten TV", "match": ["Rakuten TV"] }
+  ]
+}

@@ -1,0 +1,13 @@
+/* Ajustes de la versión estática sobre configure.css */
+.platform { grid-template-columns: 1fr auto; }
+.platform.selected { border-color: var(--accent); }
+.platform .actions-row { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+.btn.small { padding: 7px 12px; font-size: 13px; }
+.steps { margin: 8px 0 0; padding-left: 20px; color: var(--muted); font-size: 14px; }
+.steps li { margin-bottom: 6px; }
+.steps strong { color: var(--text); }
+
+@media (max-width: 480px) {
+  .platform { grid-template-columns: 1fr; }
+  .platform .actions-row { justify-content: flex-start; }
+}
